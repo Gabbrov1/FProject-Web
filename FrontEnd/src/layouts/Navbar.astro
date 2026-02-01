@@ -1,0 +1,36 @@
+---
+
+// Navbar automatically generates navigation links based on available pages
+const pages = import.meta.glob('../pages/*.astro', { eager: true });
+
+const navItems = Object.keys(pages).map((path) => {
+    const safePath = path || ''; // Ensure path is defined
+    const name = (
+        safePath?.split('/')
+        .pop() || '')
+        .replace('.astro', '');
+
+    const displayName = name.toLowerCase() === 'index' ? // if name is index
+        'Home' :  // set displayName to Home
+        name.charAt(0).toUpperCase() + name.slice(1); // else, capitalize first letter
+    return {
+        label: displayName,
+        href: `/${name === 'index' ? '' : name}` // set href to '/' for index, else '/name'
+    };
+});
+
+navItems.sort((a, b) => {
+  if (a.href === '/') return -1;
+  if (b.href === '/') return 1;
+  return a.label.localeCompare(b.label);
+});
+---
+<nav>
+  <ul>
+    {navItems.map(item => (
+      <li>
+        <a href={item.href}>{item.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>

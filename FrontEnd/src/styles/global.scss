@@ -1,0 +1,50 @@
+
+:root {
+  --bg: #ffffff;
+  --bg1: #a0a0a0;
+  --text: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --bg1: #303030;
+    --text: #ffffff;
+  }
+}
+
+
+
+body {
+  background: linear-gradient( 30deg, var(--bg1), var(--bg));
+  color: var(--text);
+
+  position: static;
+}
+
+ul{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+    margin: 1rem 0.5rem;
+    padding: 0;
+}
+li{
+    gap: 1rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    width:fit-content;
+    background-color: var(--bg);
+}
+li:hover{
+    background-color: var(--bg1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+a{
+    text-decoration: none;
+    color: var(--text);
+}
+
