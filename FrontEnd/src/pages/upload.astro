@@ -1,9 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
 
 
-<div class="uploadPage">
-    <h1>Upload Page</h1>
-    <form >
-        <input class="uploadInput" type="file" />
-        <input class="uploadBtn" type="submit" value="Upload" />
-    </form>
-</div>
+
+<Layout>
+    <div class="uploadPage">
+        <h1>Upload Page</h1>
+
+        <form class="upload-box">
+            <input class="uploadInput" type="file" />
+            <input class="uploadBtn" type="submit" value="Upload" />
+        </form>
+    </div>
+</Layout>
