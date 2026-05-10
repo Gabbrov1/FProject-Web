@@ -1,5 +1,12 @@
 {
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "sass": "^1.97.3"
+  },
+
+  "scripts": {
+    "dev": "cd Frontend && npx astro dev",
+    "server": "python -m flask --app Backend/app run --port 5001",
+    "start": "concurrently \"npm run dev\" \"npm run server\" "
   }
 }

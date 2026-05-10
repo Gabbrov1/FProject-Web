@@ -1,48 +1,51 @@
 #MSSQL DB Helper
 import os,pymssql
+from enum import Enum, auto
+
+from pymongo import MongoClient
+from bson import ObjectId
 
 
+
+class db_Types(Enum):
+    MSSQL = auto()
+    POSTGRESQL = auto()
 
 class DBHelper:
-    db_con = None
-    
-    @staticmethod
-    def get_db_connection():
-        server = os.getenv('DB_SERVER', 'localhost')  # Use environment variable or default value
-        user = os.getenv('DB_USER', 'your_username')  # Use environment variable or default value
-        password = os.getenv('DB_PASSWORD', 'your_password')  # Use environment variable or default value
-        database = os.getenv('DB_NAME', 'your_database')  # Use environment variable or default value
+    def __init__(self, db_type=db_Types.MSSQL):
+        self.server = os.getenv('DB_SERVER', 'localhost')
+        self.db_type = db_type
+        if self.db_type == db_Types.MSSQL:
+            self.database = os.getenv('DB_NAME', 'FProject')
+            self.username = os.getenv('DB_USERNAME', 'sa')
+            self.password = os.getenv('DB_PASSWORD')
+        elif self.db_type == db_Types.POSTGRESQL:
+            self.database = os.getenv('DB_NAME', 'FProject')
+            self.username = os.getenv('DB_USERNAME', 'postgres')
+            self.password = os.getenv('DB_PASSWORD')
+        else:
+            raise ValueError("Unsupported database type")
 
-        try:
-            conn = pymssql.connect(server=server, user=user, password=password, database=database)
-            DBHelper.db_con = conn
-            
-        except Exception as e:
-            print(f"Error connecting to database: {e}")
-    
-    
-    def fetch_user(self, username):
-        """Fetch user by username and password if password is provided, otherwise fetch by username only."""
-        if DBHelper.db_con is None:
-            DBHelper.get_db_connection()
+    def connect(self):
+        if self.db_type == db_Types.MSSQL:
+            return pymssql.connect(server=self.server, user=self.username, password=self.password, database=self.database)
+        elif self.db_type == db_Types.POSTGRESQL:
+            return MongoClient(f"mongodb://{self.username}:{self.password}@{self.server}/{self.database}")
+        else:
+            raise ValueError("Unsupported database type")
         
-        cursor = DBHelper.db_con.cursor(as_dict=True)
-        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-        user = cursor.fetchone()
-        return user
-    
-    def fetch_user(self,username,password):
-        if DBHelper.db_con is None:
-            DBHelper.get_db_connection()
-        
-        cursor = DBHelper.db_con.cursor(as_dict=True)
-        cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username,password))
-        user = cursor.fetchone()
-        return user
-    
-    def close_connection(self):
-        if DBHelper.db_con:
-            DBHelper.db_con.close()
-            DBHelper.db_con = None
-        
-    
+    def get_user_by_username(self, username):
+        with self.connect() as conn:
+            with conn.cursor() as cursor:
+                if self.db_type == db_Types.MSSQL:
+                    cursor.execute("SELECT id, username, password FROM users WHERE username = %s", (username,))
+                elif self.db_type == db_Types.POSTGRESQL:
+                    raise NotImplementedError("PostgreSQL support is not implemented yet")
+                else:
+                    raise ValueError("Unsupported database type")
+                result = cursor.fetchone()
+                if result:
+                    return {"id": result[0], "username": result[1], "password": result[2]}
+                return None
+
+
