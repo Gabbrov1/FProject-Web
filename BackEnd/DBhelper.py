@@ -16,9 +16,9 @@ class DBHelper:
         self.server = os.getenv('DB_SERVER', 'localhost')
         self.db_type = db_type
         if self.db_type == db_Types.MSSQL:
-            self.database = os.getenv('DB_NAME', 'FProject')
-            self.username = os.getenv('DB_USERNAME', 'sa')
-            self.password = os.getenv('DB_PASSWORD')
+            self.database = os.getenv('Mssql_DB_NAME', 'FProject')
+            self.username = os.getenv('Mssql_DB_USER', 'sa')
+            self.password = os.getenv('Mssql_DB_PASSWORD')
         elif self.db_type == db_Types.POSTGRESQL:
             self.database = os.getenv('DB_NAME', 'FProject')
             self.username = os.getenv('DB_USERNAME', 'postgres')
@@ -38,7 +38,7 @@ class DBHelper:
         with self.connect() as conn:
             with conn.cursor() as cursor:
                 if self.db_type == db_Types.MSSQL:
-                    cursor.execute("SELECT id, username, password FROM users WHERE username = %s", (username,))
+                    cursor.execute("SELECT id, username, pass FROM users WHERE username = %s", (username,))
                 elif self.db_type == db_Types.POSTGRESQL:
                     raise NotImplementedError("PostgreSQL support is not implemented yet")
                 else:

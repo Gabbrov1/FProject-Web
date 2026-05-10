@@ -1,15 +1,9 @@
 ---
+import "../styles/login.scss"
 import Layout from "../layouts/Layout.astro";
-
+import LoginForm from "../components/loginComponent"
 ---
+
 <Layout>
-<form id="loginForm">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
-
-  <button type="submit">Login</button>
-</form>
+  <LoginForm client:load></LoginForm>
 </Layout>

@@ -28,5 +28,5 @@ def check_password(password: str, hashed: str) -> bool:
     Returns:
         bool: _description_
     """
-    return bcrypt.checkpw(password.encode('utf-8'), hashed)
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
 
