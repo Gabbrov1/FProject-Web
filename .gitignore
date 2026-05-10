@@ -9,8 +9,6 @@ __pycache__/
 Other/
 node_modules/
 .astro/
-node_modules/
-
 
 # Distribution / packaging
 .Python

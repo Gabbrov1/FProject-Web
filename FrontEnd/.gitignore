@@ -1,3 +1,10 @@
+
+.vscode/
+.astro/
+node_modules/
+
+
+
 # build output
 dist/
 
@@ -23,7 +30,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-.vscode/
-.astro/
-node_modules/
+
 
