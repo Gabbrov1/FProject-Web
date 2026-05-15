@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/search.scss';
+
+import SearchBox from '../components/searchBox'
 ---
 
 
@@ -8,10 +10,7 @@ import '../styles/search.scss';
 	
 
     <h1>Search Page</h1>
-    <form >
-        <input class="searchBar" type="text" placeholder="Search..." />
-        <input type="submit" value="Submit" />
-    </form>
+    <SearchBox client:load/>
     
 
 </Layout>

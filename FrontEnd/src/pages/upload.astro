@@ -1,5 +1,8 @@
 ---
+import '../styles/upload.scss'
 import Layout from '../layouts/Layout.astro';
+
+import UploadFile from '../components/jsonUpload'
 ---
 
 
@@ -8,9 +11,6 @@ import Layout from '../layouts/Layout.astro';
     <div class="uploadPage">
         <h1>Upload Page</h1>
 
-        <form class="upload-box">
-            <input class="uploadInput" type="file" />
-            <input class="uploadBtn" type="submit" value="Upload" />
-        </form>
+        <UploadFile client:load/>
     </div>
 </Layout>
