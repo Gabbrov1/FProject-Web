@@ -60,10 +60,9 @@ def upload_json():
             data = json.load(file)
         except json.JSONDecodeError:
             return jsonify({'error': 'Invalid JSON file'}), 400
-    # Otherwise expect JSON in request body
     elif request.is_json:
         body = request.get_json()
-        data = body.get("files", body)
+        data = body.get("files", [])
     else:
         return jsonify({'error': 'No JSON data or file provided'}), 400  
     
